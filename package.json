@@ -1,0 +1,26 @@
+{
+  "name": "pokedex-typescript-lite",
+  "version": "1.0.0",
+  "description": "Aplicação back-end em Node.js com TypeScript para consulta de Pokémon na PokeAPI e gerenciamento de catálogo local (PC Box).",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "dev": "tsx src/main.ts",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "typescript",
+    "nodejs",
+    "pokeapi",
+    "pokedex",
+    "cli"
+  ],
+  "author": "SCTEC Student",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  }
+}
