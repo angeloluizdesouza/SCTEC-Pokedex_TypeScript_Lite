@@ -4,4 +4,8 @@ dist/
 .DS_Store
 Thumbs.db
 pc_box.json
-
+docx_full_text.txt
+extract_docx.py
+powershell.bat
+read_docx.js
+read_docx.ps1   

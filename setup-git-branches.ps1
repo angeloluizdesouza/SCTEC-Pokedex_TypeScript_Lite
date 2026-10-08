@@ -12,7 +12,7 @@ git checkout -B develop
 
 # 3. Criar branch feat/pokedex e commitar o codigo da aplicacao
 git checkout -B feat/pokedex
-git add src/ pc_box.json
+git add src/
 git commit -m "feat(pokedex): implement pokemon search, box service, models, and CLI main"
 
 # 4. Integrar feat/pokedex na develop
