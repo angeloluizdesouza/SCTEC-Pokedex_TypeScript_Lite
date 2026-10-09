@@ -1,11 +1,13 @@
 # Pokédex TypeScript Lite 🐾⚡
 
-Aplicação back-end desenvolvida em **Node.js** com **TypeScript** para consulta de Pokémon integrando com a [PokeAPI](https://pokeapi.co/) e gerenciamento de catálogo local (PC Box) com persistência em JSON.
-
 ## 🔗 Links Úteis
 
 - Repositório no GitHub: https://github.com/angeloluizdesouza/SCTEC-Pokedex_TypeScript_Lite
-- GitHub Projects (Kanban): não há um board público/ativo configurado para este repositório no momento.
+- GitHub Projects (Kanban): https://github.com/users/angeloluizdesouza/projects/3
+
+---
+
+Aplicação back-end desenvolvida em **Node.js** com **TypeScript** para consulta de Pokémon integrando com a [PokeAPI](https://pokeapi.co/) e gerenciamento de catálogo local (PC Box) com persistência em JSON.
 
 ---
 
@@ -157,7 +159,7 @@ TypeScript foi utilizado em todo o projeto para garantir **segurança de tipos**
 
 ### 📋 **Interface PokemonResumo**
 
-A interface `PokemonResumo` foi criada para representar uma **versão simplificada e otimizada** dos dados do Pokémon, contendo apenas as informações essenciais necessárias para exibição no catálogo:
+A interface `PokemonResumo` foi criada para representar uma **versão simplificada e otimizada** dos dados do Pokémon, contendo apenas as informações essenciais necessárias para exibição no catálogo.
 
 ```typescript
 interface PokemonResumo {
