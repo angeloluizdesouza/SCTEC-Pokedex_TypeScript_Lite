@@ -2,6 +2,11 @@
 
 Aplicação back-end desenvolvida em **Node.js** com **TypeScript** para consulta de Pokémon integrando com a [PokeAPI](https://pokeapi.co/) e gerenciamento de catálogo local (PC Box) com persistência em JSON.
 
+## 🔗 Links Úteis
+
+- Repositório no GitHub: https://github.com/angeloluizdesouza/SCTEC-Pokedex_TypeScript_Lite
+- GitHub Projects (Kanban): não há um board público/ativo configurado para este repositório no momento.
+
 ---
 
 ## 🚀 Funcionalidades
