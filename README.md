@@ -1,6 +1,6 @@
 # Pokédex TypeScript Lite 🐾⚡
 
-Aplicação back-end desenvolvida em **Node.js** com **TypeScript** para consulta de Pokémon integrando com a [PokeAPI](https://pokeapi.co/) e gerenciamento de catálogo local (PC Box) com persistência de dados em arquivo JSON.
+Aplicação back-end desenvolvida em **Node.js** com **TypeScript** para consulta de Pokémon integrando com a [PokeAPI](https://pokeapi.co/) e gerenciamento de catálogo local (PC Box) com persistência em JSON.
 
 ---
 
@@ -81,6 +81,218 @@ npm run dev
 ### Verificar Tipagem (TypeScript)
 ```bash
 npm run typecheck
+```
+
+---
+
+## 📚 Explicações Técnicas
+
+### 🔤 **TypeScript - Tipagem, Interfaces, Parâmetros e Retornos Tipados**
+
+TypeScript foi utilizado em todo o projeto para garantir **segurança de tipos** e melhorar a manutenibilidade do código. As tipagens estão presentes em:
+
+- **Parâmetros de funções**: Cada função possui tipos explícitos para seus argumentos.
+  ```typescript
+  buscarPokemon(id: number): Promise<Pokemon> { ... }
+  ```
+
+- **Retornos tipados**: Todas as funções declaram o tipo de retorno esperado.
+  ```typescript
+  async obterDados(): Promise<PokemonResumo[]> { ... }
+  ```
+
+- **Variáveis tipadas**: Declaração explícita de tipos em variáveis críticas.
+  ```typescript
+  const catalogo: Pokemon[] = [];
+  const nome: string = "Pikachu";
+  ```
+
+- **Uso de interfaces e tipos**: Estruturação clara das estruturas de dados utilizadas na aplicação.
+
+---
+
+### 📋 **Interface PokemonResumo**
+
+A interface `PokemonResumo` foi criada para representar uma **versão simplificada e otimizada** dos dados do Pokémon, contendo apenas as informações essenciais necessárias para exibição no PC Box:
+
+```typescript
+interface PokemonResumo {
+  id: number;
+  nome: string;
+  tipos: string[];
+  altura: number;
+  peso: number;
+  stats: { [key: string]: number };
+  sprite: string;
+}
+```
+
+**Objetivo:**
+- Reduzir o tamanho dos dados armazenados no JSON.
+- Facilitar a serialização e deserialização.
+- Padronizar os dados antes de persistência.
+- Melhorar a performance ao listar Pokémon do PC Box.
+
+---
+
+### 🌐 **Fetch e async/await - Consulta à PokeAPI**
+
+A aplicação utiliza a **Fetch API** nativa do Node.js para fazer requisições HTTP assíncronas à PokeAPI. O padrão **async/await** garante execução não-bloqueante:
+
+```typescript
+async buscarPokemonDaAPI(id: number): Promise<Pokemon> {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+  
+  if (!response.ok) {
+    throw new PokemonNaoEncontradoError(`Pokémon com ID ${id} não existe`);
+  }
+  
+  const dados = await response.json();
+  return this.transformarDados(dados);
+}
+```
+
+**Como funciona:**
+1. `await fetch()` faz requisição HTTP.
+2. `await response.json()` converte resposta para objeto JavaScript.
+3. A função é declarada `async` para usar `await`.
+4. Retorna uma `Promise<Pokemon>` com tipagem explícita.
+
+---
+
+### ⚠️ **Tratamento de Erros Personalizados**
+
+O projeto implementa **exceções customizadas** em `CustomErrors.ts` para tratamento específico de erros:
+
+```typescript
+class PokemonNaoEncontradoError extends Error {
+  constructor(mensagem: string) {
+    super(mensagem);
+    this.name = "PokemonNaoEncontradoError";
+  }
+}
+
+class ErroBuscaAPIError extends Error {
+  constructor(mensagem: string) {
+    super(mensagem);
+    this.name = "ErroBuscaAPIError";
+  }
+}
+```
+
+**Exemplos de uso:**
+- **Pokémon inexistente**: Lança `PokemonNaoEncontradoError` quando ID não existe na API.
+- **Erro de rede**: Lança `ErroBuscaAPIError` em casos de falha de conexão.
+- **ID inválido**: Validação de tipo `number` com mensagem específica.
+
+```typescript
+try {
+  const pokemon = await pokeApiService.buscarPokemon(999999);
+} catch (erro) {
+  if (erro instanceof PokemonNaoEncontradoError) {
+    console.log("Pokémon não encontrado na API");
+  } else if (erro instanceof ErroBuscaAPIError) {
+    console.log("Erro ao conectar com a API");
+  }
+}
+```
+
+---
+
+### 🔄 **Métodos de Array Utilizados**
+
+O projeto utiliza diversos **métodos de array** para manipulação eficiente de dados:
+
+#### **map()** - Transformação de dados
+Converte array de Pokémon da API para formato `PokemonResumo`:
+```typescript
+const pokemonsResumo = pokemonsCompletos.map(pokemon => ({
+  id: pokemon.id,
+  nome: pokemon.name,
+  tipos: pokemon.types.map(t => t.type.name),
+  altura: pokemon.height,
+  peso: pokemon.weight,
+  sprite: pokemon.sprites.front_default
+}));
+```
+
+#### **filter()** - Filtragem de dados
+Filtra Pokémon por tipo específico:
+```typescript
+const pokemonsDeTipo = catalogo.filter(p => p.tipos.includes("elétrico"));
+```
+
+#### **find()** - Busca de elemento único
+Localiza um Pokémon específico por ID:
+```typescript
+const pokemon = catalogo.find(p => p.id === idProcurado);
+```
+
+#### **some()** - Verificação de existência
+Verifica se um Pokémon já existe no catálogo (para evitar duplicatas):
+```typescript
+const jaExiste = catalogo.some(p => p.id === novoId);
+```
+
+#### **every()** - Validação de todos os elementos
+Verifica se todos os Pokémon têm sprite válido:
+```typescript
+const todosComSprite = catalogo.every(p => p.sprite !== null);
+```
+
+#### **reduce()** - Agregação de dados
+Calcula estatísticas gerais do catálogo:
+```typescript
+const pesoTotal = catalogo.reduce((total, p) => total + p.peso, 0);
+const alturaMedia = catalogo.reduce((soma, p) => soma + p.altura, 0) / catalogo.length;
+```
+
+#### **forEach()** - Iteração
+Exibe cada Pokémon do catálogo:
+```typescript
+catalogo.forEach(pokemon => {
+  console.log(`${pokemon.id} - ${pokemon.nome}`);
+});
+```
+
+---
+
+### 🗂️ **Classe CatalogoPokemon**
+
+A classe `CatalogoPokemon` (implementada em `BoxService.ts`) gerencia o **catálogo local** de Pokémon com persistência em JSON:
+
+#### **Atributos:**
+- `catalogo: Pokemon[]` - Array em memória com os Pokémon salvos.
+- `caminhoArquivo: string` - Caminho do arquivo `pc_box.json`.
+
+#### **Métodos:**
+
+| Método | Descrição | Retorno |
+| :--- | :--- | :--- |
+| `adicionarPokemon(pokemon: Pokemon)` | Adiciona Pokémon ao catálogo sem duplicatas. | `void` |
+| `removerPokemon(id: number)` | Remove Pokémon por ID. | `boolean` |
+| `obterPokemon(id: number)` | Busca Pokémon específico. | `Pokemon \| undefined` |
+| `listarTodos()` | Retorna todos os Pokémon do catálogo. | `Pokemon[]` |
+| `verificarDuplicata(id: number)` | Verifica se Pokémon já existe. | `boolean` |
+| `salvarEmJSON()` | Persiste catálogo em arquivo JSON. | `void` |
+| `carregarDoJSON()` | Carrega catálogo do arquivo JSON. | `void` |
+| `obterEstatisticas()` | Calcula estatísticas do catálogo. | `Estatisticas` |
+
+#### **Exemplo de uso:**
+```typescript
+const boxService = new CatalogoPokemon();
+
+// Carregar dados existentes
+await boxService.carregarDoJSON();
+
+// Adicionar novo Pokémon
+boxService.adicionarPokemon(pikachu);
+
+// Listar todos
+const todos = boxService.listarTodos();
+
+// Persistir
+await boxService.salvarEmJSON();
 ```
 
 ---
