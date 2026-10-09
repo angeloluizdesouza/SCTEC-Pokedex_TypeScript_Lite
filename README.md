@@ -1,11 +1,9 @@
 # Pokédex TypeScript Lite 🐾⚡
 
-## 🔗 Links Úteis
+## 🔗 Links rápidos
 
-- Repositório no GitHub: https://github.com/angeloluizdesouza/SCTEC-Pokedex_TypeScript_Lite
-- GitHub Projects (Kanban): https://github.com/users/angeloluizdesouza/projects/3
-
----
+[![GitHub](https://img.shields.io/badge/GitHub-Reposit%C3%B3rio-181717?style=for-the-badge&logo=github)](https://github.com/angeloluizdesouza/SCTEC-Pokedex_TypeScript_Lite)
+[![Projects](https://img.shields.io/badge/GitHub-Projects-5A67D8?style=for-the-badge&logo=github)](https://github.com/users/angeloluizdesouza/projects/3)
 
 Aplicação back-end desenvolvida em **Node.js** com **TypeScript** para consulta de Pokémon integrando com a [PokeAPI](https://pokeapi.co/) e gerenciamento de catálogo local (PC Box) com persistência em JSON.
 
@@ -188,11 +186,11 @@ A aplicação utiliza a **Fetch API** nativa do Node.js para fazer requisições
 ```typescript
 async buscarPokemonDaAPI(id: number): Promise<Pokemon> {
   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
-  
+
   if (!response.ok) {
     throw new PokemonNaoEncontradoError(`Pokémon com ID ${id} não existe`);
   }
-  
+
   const dados = await response.json();
   return this.transformarDados(dados);
 }
