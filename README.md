@@ -85,6 +85,45 @@ npm run typecheck
 
 ---
 
+## 📤 Resultado da Execução
+
+Abaixo está o resultado da execução do projeto com as operações de busca, adição, listagem e remoção de Pokémon:
+
+```
+[OK] Pokémon encontrado: pikachu
+#25 - pikachu | Tipos: electric | Altura: 4 | Peso: 60
+[OK] pikachu adicionado ao catálogo.
+
+[OK] Pokémon encontrado: charmander
+#4 - charmander | Tipos: fire | Altura: 6 | Peso: 85
+[AVISO] charmander já está no catálogo.
+
+[OK] Pokémon encontrado: pikachu
+#25 - pikachu | Tipos: electric | Altura: 4 | Peso: 60
+[AVISO] pikachu já está no catálogo.
+
+[ERRO] Pokémon não encontrado: pokemon-inexistente
+
+Catálogo atual:
+#4 - charmander | Tipos: fire | Altura: 6 | Peso: 85 | HP: 39 ATK: 52 DEF: 43
+#25 - pikachu | Tipos: electric | Altura: 4 | Peso: 60 | HP: 35 ATK: 55 DEF: 40
+
+[OK] Pokémon removido do catálogo.
+
+Catálogo atual:
+#4 - charmander | Tipos: fire | Altura: 6 | Peso: 85 | HP: 39 ATK: 52 DEF: 43
+```
+
+**Descrição das operações:**
+- ✅ **Busca de Pokémon**: Pikachu e Charmander foram encontrados com sucesso na PokeAPI.
+- ✅ **Adição ao catálogo**: Primeiro Pokémon adicionado sem duplicatas.
+- ⚠️ **Prevenção de duplicatas**: Sistema alertou que Charmander e Pikachu já existiam no catálogo.
+- ❌ **Tratamento de erros**: Pokémon inexistente retornou erro adequado.
+- 📋 **Listagem**: Catálogo exibiu todos os Pokémon com suas estatísticas completas.
+- 🗑️ **Remoção**: Pikachu foi removido com sucesso do catálogo.
+
+---
+
 ## 📚 Explicações Técnicas
 
 ### 🔤 **TypeScript - Tipagem, Interfaces, Parâmetros e Retornos Tipados**
@@ -113,7 +152,7 @@ TypeScript foi utilizado em todo o projeto para garantir **segurança de tipos**
 
 ### 📋 **Interface PokemonResumo**
 
-A interface `PokemonResumo` foi criada para representar uma **versão simplificada e otimizada** dos dados do Pokémon, contendo apenas as informações essenciais necessárias para exibição no PC Box:
+A interface `PokemonResumo` foi criada para representar uma **versão simplificada e otimizada** dos dados do Pokémon, contendo apenas as informações essenciais necessárias para exibição no catálogo:
 
 ```typescript
 interface PokemonResumo {
